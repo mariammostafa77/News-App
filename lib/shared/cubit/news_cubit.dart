@@ -91,4 +91,12 @@ class NewsCubit extends Cubit<NewsCubitStates>{
     });
   }
 
+
+  bool isDark = false;
+  void changeThemeMode(){
+    isDark = !isDark;
+    emit(NewsThemModeState());
+  }
+
+
 }

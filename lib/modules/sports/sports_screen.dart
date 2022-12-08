@@ -16,13 +16,7 @@ class SportsScreen extends StatelessWidget{
       builder: (context, state) {
         return ConditionalBuilder(
           condition: sportsNews.isNotEmpty,
-          builder: (context) => Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListView.separated(
-                itemBuilder: (context, index) =>newsItem(sportsNews[index]) ,
-                separatorBuilder: (context, index) => separatorWidget(),
-                itemCount: sportsNews.length),
-          ),
+          builder: (context) => articleList(sportsNews),
           fallback: (context) => const Center(child: CircularProgressIndicator()),
         );
       },

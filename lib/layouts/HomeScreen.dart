@@ -7,76 +7,71 @@ import 'package:news/shared/cubit/news_cubit_states.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NewsCubit()..getBusinessNews(),
-      child: BlocConsumer<NewsCubit, NewsCubitStates>(
-        builder: (context, state) {
-          NewsCubit cubit = NewsCubit.getInstance(context);
-          return Scaffold(
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search),
-                  color: Colors.black,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.brightness_4_outlined),
-                  color: Colors.black,
-                )
-              ],
-              title: Row(
-                children: [
-                  const Image(
-                    image: AssetImage('assets/images/news.png'),
-                    height: 40.0,
-                    width: 40.0,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                      NewsCubit.getInstance(context).screenTitles[
-                          NewsCubit.getInstance(context).currentSelectedIndex],
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 22.0,
-                      )),
-                ],
+    return BlocConsumer<NewsCubit, NewsCubitStates>(
+      builder: (context, state) {
+        NewsCubit cubit = NewsCubit.getInstance(context);
+        //cubit.getBusinessNews();
+        return Scaffold(
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.search),
               ),
-            ),
-            body: cubit.screens[cubit.currentSelectedIndex],
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: cubit.currentSelectedIndex,
-              type: BottomNavigationBarType.fixed,
-              onTap: (index) {
-                cubit.changeBottomNavState(index);
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.business),
-                  label: 'Business',
+              IconButton(
+                onPressed: () {
+                  print('before ${NewsCubit.getInstance(context).isDark}');
+                  NewsCubit.getInstance(context).changeThemeMode();
+                  print('after ${NewsCubit.getInstance(context).isDark}');
+                },
+                icon: const Icon(Icons.brightness_4_outlined),
+              )
+            ],
+            title: Row(
+              children: [
+                const Image(
+                  image: AssetImage('assets/images/news.png'),
+                  height: 40.0,
+                  width: 40.0,
+                  fit: BoxFit.cover,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.science),
-                  label: 'Science',
+                const SizedBox(
+                  width: 10.0,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.sports),
-                  label: 'Sports',
-                ),
+                Text(
+                    NewsCubit.getInstance(context).screenTitles[
+                        NewsCubit.getInstance(context).currentSelectedIndex],
+                  style: Theme.of(context).textTheme.headline1,
+                   ),
               ],
-              selectedItemColor: Colors.red,
-              unselectedItemColor: Colors.black,
-              showUnselectedLabels: true,
-              elevation: 10.0,
             ),
-          );
-        },
-        listener: (context, state) => (context, state) {},
-      ),
+          ),
+          body: cubit.screens[cubit.currentSelectedIndex],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: cubit.currentSelectedIndex,
+            type: BottomNavigationBarType.fixed,
+            onTap: (index) {
+              cubit.changeBottomNavState(index);
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.business),
+                label: 'Business',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.science),
+                label: 'Science',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.sports),
+                label: 'Sports',
+              ),
+            ],
+            showUnselectedLabels: true,
+          ),
+        );
+      },
+      listener: (context, state) => (context, state) {},
     );
   }
 }

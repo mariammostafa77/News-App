@@ -15,13 +15,7 @@ class ScienceScreen extends StatelessWidget{
       builder: (context, state) {
         return ConditionalBuilder(
           condition: scienceNews.isNotEmpty,
-          builder: (context) => Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListView.separated(
-                itemBuilder: (context, index) =>newsItem(scienceNews[index]) ,
-                separatorBuilder: (context, index) => separatorWidget(),
-                itemCount: scienceNews.length),
-          ),
+          builder: (context) => articleList(scienceNews),
           fallback: (context) => const Center(child: CircularProgressIndicator()),
         );
       },
