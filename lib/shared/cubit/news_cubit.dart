@@ -32,13 +32,13 @@ class NewsCubit extends Cubit<NewsCubitStates>{
 
   void changeBottomNavState(int index){
     currentSelectedIndex=index;
-  /*  if(index==1){
+    if(index==1){
       getScienceNews();
     }else{
       if(index==2){
         getSportsNews();
       }
-    }*/
+    }
     emit(NewsChangeBottomNavState());
     
   }

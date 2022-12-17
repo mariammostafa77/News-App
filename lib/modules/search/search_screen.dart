@@ -30,6 +30,7 @@ class SearchScreen extends StatelessWidget {
                   child: TextFormField(
                     keyboardType: TextInputType.text,
                     controller: searchTextController,
+                    style: Theme.of(context).textTheme.headline2,
                     decoration: InputDecoration(
                       enabledBorder: const UnderlineInputBorder(),
                       hintText: 'Search',
@@ -41,13 +42,9 @@ class SearchScreen extends StatelessWidget {
                     onChanged: (value) {
                       NewsCubit.searchText=searchTextController.text;
                       NewsCubit.getInstance(context).getSearchNewsResults(value);
-                      print(value);
-                    },
-                    onFieldSubmitted: (value) {
-                      //cubit.getSearchNewsResults(value);
                     },
                     validator: (value) {
-                      if(value!.isEmpty){
+                      if(value!.isEmpty || value==' '){
                         return 'Search must not be empty.';
                       }
                       return null;
