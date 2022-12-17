@@ -16,7 +16,10 @@ class BusinessScreen extends StatelessWidget {
       builder: (context, state) {
         return ConditionalBuilder(
           condition: businessNews.isNotEmpty,
-          builder: (context) => articleList(businessNews),
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: articleList(businessNews),
+          ),
           fallback: (context) =>
               const Center(child: CircularProgressIndicator()),
         );

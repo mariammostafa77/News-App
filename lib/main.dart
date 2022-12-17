@@ -3,14 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:news/layouts/HomeScreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/network/local/cache_helper.dart';
 import 'package:news/network/remote/dio_helper.dart';
 import 'package:news/shared/components/bloc_observer.dart';
 import 'package:news/shared/cubit/news_cubit.dart';
 import 'package:news/shared/cubit/news_cubit_states.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
   DioHelper.init();
+  await CacheHelper.init();
   runApp(const MyApp());
 }
 
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     print('builddddddddddd');
     return BlocProvider(
-      create: (context) => NewsCubit()..getBusinessNews(),
+      create: (context) => NewsCubit()..getBusinessNews()..getSportsNews()..getScienceNews(),
       child: BlocConsumer<NewsCubit, NewsCubitStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -55,7 +58,7 @@ class MyApp extends StatelessWidget {
               textTheme: TextTheme(
                 bodyText1: TextStyle(
                   color: Colors.black.withOpacity(0.7),
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
                 headline2: const TextStyle(
@@ -72,7 +75,7 @@ class MyApp extends StatelessWidget {
               iconTheme: const IconThemeData(color: Colors.black54),
             ),
             darkTheme: ThemeData(
-              primarySwatch: Colors.blue,
+              primarySwatch: Colors.lightBlue,
               bottomNavigationBarTheme: BottomNavigationBarThemeData(
                 backgroundColor: HexColor('333739'),
                 elevation: 20.0,
@@ -97,7 +100,7 @@ class MyApp extends StatelessWidget {
               textTheme: TextTheme(
                 bodyText1: const TextStyle(
                   color: Colors.white,
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
                 headline2: const TextStyle(
@@ -113,8 +116,8 @@ class MyApp extends StatelessWidget {
               ),
               iconTheme: const IconThemeData(color: Colors.white),
             ),
-            themeMode: NewsCubit.getInstance(context).isDark
-                ? ThemeMode.dark
+            themeMode: CacheHelper.sharedPreferences!.getBool('isDark') == true
+                ?ThemeMode.dark
                 : ThemeMode.light,
             home: HomeScreen(),
           );

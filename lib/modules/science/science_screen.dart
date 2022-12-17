@@ -15,7 +15,10 @@ class ScienceScreen extends StatelessWidget{
       builder: (context, state) {
         return ConditionalBuilder(
           condition: scienceNews.isNotEmpty,
-          builder: (context) => articleList(scienceNews),
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: articleList(scienceNews),
+          ),
           fallback: (context) => const Center(child: CircularProgressIndicator()),
         );
       },

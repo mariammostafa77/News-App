@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 Widget newsItem(article,context) => Card(
@@ -5,28 +6,35 @@ Widget newsItem(article,context) => Card(
       elevation: 5.0,
       child: Column(
         children: [
-          Image.network(
-            article['urlToImage'] ??
-                'https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg',
-            width: double.infinity,
-            height: 160.0,
-            fit: BoxFit.cover,
-          ),
-          const SizedBox(
-            height: 10.0,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: CachedNetworkImage(
+                    imageUrl: article['urlToImage'] ?? 'https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg',
+                    placeholder:(context, url) => Image.network('https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg') ,
+                    errorWidget:(context, url, error) => Image.network('https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg') ,
+                    width: 100.0,
+                    height: 100.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    article['title'] ?? 'NotFound',
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0, left: 10.0,top: 5.0),
             child: Column(
               children: [
-                Text(
-                  article['title'] ?? 'NotFound',
-                  textAlign: TextAlign.end,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
                 Row(
                   children: [
                     Row(
@@ -84,10 +92,8 @@ Widget newsItem(article,context) => Card(
 Widget separatorWidget() => const SizedBox(
       height: 10.0,
     );
-Widget articleList(newsList)=>Padding(
-  padding: const EdgeInsets.all(10.0),
-  child: ListView.separated(
-      itemBuilder: (context, index) =>newsItem(newsList[index],context) ,
-      separatorBuilder: (context, index) => separatorWidget(),
-      itemCount: newsList.length),
-);
+
+Widget articleList(newsList)=>ListView.separated(
+    itemBuilder: (context, index) =>newsItem(newsList[index],context) ,
+    separatorBuilder: (context, index) => separatorWidget(),
+    itemCount: newsList.length);

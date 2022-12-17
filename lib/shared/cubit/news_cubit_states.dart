@@ -25,3 +25,10 @@ class NewsGetSportsNewsErrorState extends NewsCubitStates{
 }
 
 class NewsThemModeState extends NewsCubitStates{}
+
+class NewsSearchSuccessState extends NewsCubitStates{}
+class NewsSearchLoadingState extends NewsCubitStates{}
+class NewsSearchErrorState extends NewsCubitStates{
+  final String error;
+  NewsSearchErrorState(this.error);
+}

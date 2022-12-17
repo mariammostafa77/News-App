@@ -16,7 +16,10 @@ class SportsScreen extends StatelessWidget{
       builder: (context, state) {
         return ConditionalBuilder(
           condition: sportsNews.isNotEmpty,
-          builder: (context) => articleList(sportsNews),
+          builder: (context) => Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: articleList(sportsNews),
+          ),
           fallback: (context) => const Center(child: CircularProgressIndicator()),
         );
       },

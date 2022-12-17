@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/modules/search/search_screen.dart';
+import 'package:news/network/local/cache_helper.dart';
 import 'package:news/shared/cubit/news_cubit.dart';
 import 'package:news/shared/cubit/news_cubit_states.dart';
 
@@ -15,14 +17,16 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                  cubit.searchNewsResults=[];
+                  NewsCubit.searchText='';
+                },
                 icon: const Icon(Icons.search),
               ),
               IconButton(
                 onPressed: () {
-                  print('before ${NewsCubit.getInstance(context).isDark}');
                   NewsCubit.getInstance(context).changeThemeMode();
-                  print('after ${NewsCubit.getInstance(context).isDark}');
                 },
                 icon: const Icon(Icons.brightness_4_outlined),
               )
@@ -36,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(
-                  width: 10.0,
+                  width: 5.0,
                 ),
                 Text(
                     NewsCubit.getInstance(context).screenTitles[
